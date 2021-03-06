@@ -26,26 +26,28 @@ def paintpalette(stdscr, center_yx, bg_color):
     #block = chr(9608)
     block = chr(9724)
     # set the block column and rows
-    block_c = 4
+    block_c = 3
     block_r = 1
     # set how many colors for each row.
     color_perrow = 16
 
     # calculate the starting cell's y, x axis
-    sy = center_yx[0] - (curses.COLORS // color_perrow)
-    sx = center_yx[1] - (color_perrow * block_c) // 2
+    #sy = center_yx[0] - (curses.COLORS // color_perrow)
+    #sx = center_yx[1] - (color_perrow * block_c) // 2
+    sy = 0
+    sx = 0
 
-    msg = "Curses Color Palette"
-    # print the welcome message y-axis and x-axis
-    stdscr.addstr(sy - 6, center_yx[1] - len(msg) // 2, msg)
-    # how to play.
-    msg = "Arrow Key up / down to change background color and ESC to exit!"
-    stdscr.addstr(sy - 5, center_yx[1] - len(msg) // 2, msg, curses.COLOR_GREEN)
+    #msg = "Curses Color Palette"
+    ## print the welcome message y-axis and x-axis
+    #stdscr.addstr(sy - 6, center_yx[1] - len(msg) // 2, msg)
+    ## how to play.
+    #msg = "Arrow Key up / down to change background color and ESC to exit!"
+    #stdscr.addstr(sy - 5, center_yx[1] - len(msg) // 2, msg, curses.COLOR_GREEN)
 
     # paint the background color here.
-    stdscr.addstr(sy - 3, sx, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
-    stdscr.addstr(sy - 3, sx + 22, '     ', curses.color_pair(10))
-    stdscr.addstr(sy - 2, sx + 22, '     ', curses.color_pair(10))
+    #stdscr.addstr(sy - 1, sx, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
+    #stdscr.addstr(sy - 3, sx + 22, '     ', curses.color_pair(10))
+    #stdscr.addstr(sy - 2, sx + 22, '     ', curses.color_pair(10))
 
     for i in range(0, curses.COLORS):
     #for i in range(0, 20):
@@ -77,38 +79,41 @@ def screen(stdscr):
 
     # get the center of the screen.
     sh, sw = stdscr.getmaxyx()
+    #center = [sh // 2, sw // 2]
     center = [sh // 2, sw // 2]
 
+    stdscr.addstr(0, 0, str(center))
+    stdscr.getch()
 
     # track the background color.
-    bg = -1
-    initcolors(bg)
-    paintpalette(stdscr, center, bg)
+    #bg = -1
+    #initcolors(bg)
+    #paintpalette(stdscr, center, bg)
 
-    while True:
-        user_key = stdscr.getch()
+    #while True:
+    #    user_key = stdscr.getch()
 
-        # exit when user press ESC q or Q
-        if user_key in [27, 113, 81]:
-            break;
+    #    # exit when user press ESC q or Q
+    #    if user_key in [27, 113, 81]:
+    #        break;
 
-        # decide the new head based on the direction
-        if user_key in [curses.KEY_UP, 107]:
-            # k (107) for up
-            if bg < curses.COLORS - 1:
-                bg = bg + 1
-            else:
-                bg = -1
-            initcolors(bg)
-            paintpalette(stdscr, center, bg)
+    #    # decide the new head based on the direction
+    #    if user_key in [curses.KEY_UP, 107]:
+    #        # k (107) for up
+    #        if bg < curses.COLORS - 1:
+    #            bg = bg + 1
+    #        else:
+    #            bg = -1
+    #        initcolors(bg)
+    #        paintpalette(stdscr, center, bg)
 
-        elif user_key in [curses.KEY_DOWN, 106]:
-            # j (106) for down
-            if bg >= 0:
-                bg = bg - 1
-            else:
-                bg = 255
-            initcolors(bg)
-            paintpalette(stdscr, center, bg)
+    #    elif user_key in [curses.KEY_DOWN, 106]:
+    #        # j (106) for down
+    #        if bg >= 0:
+    #            bg = bg - 1
+    #        else:
+    #            bg = 255
+    #        initcolors(bg)
+    #        paintpalette(stdscr, center, bg)
 
 curses.wrapper(screen)
