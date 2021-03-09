@@ -16,6 +16,23 @@ def initcolors(bg_color=-1):
         #curses.init_pair(i + 1, i, 8)
         the_color = curses.color_pair(i + 1)
 
+"""
+paint the color palette.
+paintpalette(stdscr, start_y, start_x, block_c, block_r, color_perrow, bg_color)
+Parameters
+----------
+stdscr
+start_y
+  the starting cell's y axis
+start_x
+  the starting cell's x axis
+block_c
+  set how many columns to paint for each color
+block_r
+  set how many rows to paint for each color
+color_perrow
+  set how many colors to paint for each row.
+"""
 def paintpalette(stdscr, center_yx, bg_color):
 
     # set the block character
@@ -23,12 +40,13 @@ def paintpalette(stdscr, center_yx, bg_color):
     # ✸ 10040 ❂ 10050 ✹ 10041
     # █ 9608 ◼ 9724
     # ⚑ 9873 ⚐ 9872
-    #block = chr(9608)
-    block = chr(9724)
-    # set the block column and rows
-    block_c = 3
+    block = chr(9608)
+    #block = chr(9724)
+    # set how many columns to paint for each color
+    block_c = 4
+    # set how many rows to paint for each color.
     block_r = 1
-    # set how many colors for each row.
+    # set how many colors to paint for each row.
     color_perrow = 16
 
     # calculate the starting cell's y, x axis
@@ -43,9 +61,10 @@ def paintpalette(stdscr, center_yx, bg_color):
     stdscr.addstr(sy - 5, center_yx[1] - len(msg) // 2, msg, curses.COLOR_GREEN)
 
     # paint the background color here.
-    stdscr.addstr(sy - 1, sx, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
-    stdscr.addstr(sy - 3, sx + 22, '     ', curses.color_pair(10))
-    stdscr.addstr(sy - 2, sx + 22, '     ', curses.color_pair(10))
+    stdscr.addstr(sy - 3, sx, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
+    # any of the color pair will show the background color.
+    stdscr.addstr(sy - 3, sx + 22, '     ', curses.color_pair(1))
+    stdscr.addstr(sy - 2, sx + 22, '     ', curses.color_pair(1))
 
     for i in range(0, curses.COLORS):
     #for i in range(0, 20):
@@ -82,7 +101,7 @@ def screen(stdscr):
 
     # paint the center at he top left corner.
     stdscr.addstr(0, 0, str(center))
-    stdscr.getch()
+    #stdscr.getch()
 
     # track the background color.
     bg = -1
