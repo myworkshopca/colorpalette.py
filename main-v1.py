@@ -32,7 +32,8 @@ def paintpalette(stdscr, center_yx, bg_color):
     color_perrow = 16
 
     # calculate the starting cell's y, x axis
-    sy = center_yx[0] - (curses.COLORS // color_perrow)
+    #sy = center_yx[0] - (curses.COLORS // color_perrow)
+    sy = 7 
     sx = center_yx[1] - (color_perrow * block_c) // 2
 
     msg = "Curses Color Palette"
