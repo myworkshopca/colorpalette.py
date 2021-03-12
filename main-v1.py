@@ -29,11 +29,11 @@ def paintpalette(stdscr, center_yx, bg_color):
     block_c = 4
     block_r = 1
     # set how many colors for each row.
-    color_perrow = 16
+    color_perrow = 24
 
     # calculate the starting cell's y, x axis
     #sy = center_yx[0] - (curses.COLORS // color_perrow)
-    sy = 7 
+    sy = 6
     sx = center_yx[1] - (color_perrow * block_c) // 2
 
     msg = "Curses Color Palette"
@@ -44,9 +44,9 @@ def paintpalette(stdscr, center_yx, bg_color):
     stdscr.addstr(sy - 5, center_yx[1] - len(msg) // 2, msg, curses.COLOR_GREEN)
 
     # paint the background color here.
-    stdscr.addstr(sy - 3, sx, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
+    stdscr.addstr(sy - 4, sx, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
+    stdscr.addstr(sy - 4, sx + 22, '     ', curses.color_pair(10))
     stdscr.addstr(sy - 3, sx + 22, '     ', curses.color_pair(10))
-    stdscr.addstr(sy - 2, sx + 22, '     ', curses.color_pair(10))
 
     for i in range(0, curses.COLORS):
     #for i in range(0, 20):
