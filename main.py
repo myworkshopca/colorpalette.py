@@ -16,7 +16,7 @@ def initcolors(bg_color=-1):
         #curses.init_pair(i + 1, i, 8)
         the_color = curses.color_pair(i + 1)
 
-def calcparams(sh, sw, margin_y=1, margin_x=2):
+def calcparams(sh, sw, margin_y=0, margin_x=1):
     """
     Calculate the parameters need for function paintpalette.
     Parameters
@@ -36,11 +36,11 @@ def calcparams(sh, sw, margin_y=1, margin_x=2):
     # calculate how many rows and columns available for painting.
     # reserve 6 rows for message.
     # all message should be on top of the screen.
-    rows = sh - margin_y * 2 - 6
+    rows = sh - margin_y * 2 -3 
     columns = sw - margin_x * 2
 
     # decide the starting y, x
-    start_y = margin_y + 6
+    start_y = margin_y + 3
     start_x = margin_x
 
     # calculate the columns and rows of blocks for each color.
@@ -49,10 +49,10 @@ def calcparams(sh, sw, margin_y=1, margin_x=2):
     #    we could use more than one row if we have enough rows.
     #  - one row to display the color pair id.
     # set the columns of blocks to 4 to get started.
-    block_c = 4
+    block_c = 3
     block_r = 1
     # calc the colors per row.
-    color_perrow = columns // 4
+    color_perrow = columns // block_c
 
     return {
         "start_y": start_y,
@@ -94,16 +94,16 @@ def paintpalette(stdscr, start_y, start_x, block_c, block_r,
     msg = "Curses Color Palette"
     # print the welcome message y-axis and x-axis
     #stdscr.addstr(sy - 6, center_yx[1] - len(msg) // 2, msg)
-    stdscr.addstr(start_y - 6, start_x, msg)
+    stdscr.addstr(start_y - 3, start_x, msg)
     # how to play.
     msg = "Arrow Key up / down to change background color and ESC to exit!"
-    stdscr.addstr(start_y - 5, start_x, msg, curses.COLOR_GREEN)
+    stdscr.addstr(start_y - 2, start_x, msg, curses.COLOR_GREEN)
 
     # paint the background color here.
-    stdscr.addstr(start_y - 3, start_x, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
+    stdscr.addstr(start_y - 1, start_x, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
     # any of the color pair will show the background color.
-    stdscr.addstr(start_y - 3, start_x + 22, '     ', curses.color_pair(1))
-    stdscr.addstr(start_y - 2, start_x + 22, '     ', curses.color_pair(1))
+    stdscr.addstr(start_y - 1, start_x + 22, '     ', curses.color_pair(1))
+    #stdscr.addstr(start_y - 3, start_x + 22, '     ', curses.color_pair(1))
 
     for i in range(0, curses.COLORS):
     #for i in range(0, 20):
@@ -137,13 +137,13 @@ def screen(stdscr):
     # get the center of the screen.
     sh, sw = stdscr.getmaxyx()
     #center = [sh // 2, sw // 2]
-    center = [sh // 2, sw // 2]
+    center = [sh, sw]
 
     # calculate the parameters for color palette.
     params = calcparams(sh, sw)
 
     # paint the center at he top left corner.
-    stdscr.addstr(0, 0, str(center))
+    #stdscr.addstr(0, 0, str(center))
     #stdscr.getch()
 
     # track the background color.
