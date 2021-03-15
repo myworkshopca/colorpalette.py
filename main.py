@@ -14,7 +14,6 @@ def initcolors(bg_color=-1):
         #curses.init_pair(i + 1, i, -1)
         curses.init_pair(i + 1, i, bg_color)
         #curses.init_pair(i + 1, i, 8)
-        the_color = curses.color_pair(i + 1)
 
 def calcparams(sh, sw, margin_y=0, margin_x=1):
     """
@@ -40,7 +39,7 @@ def calcparams(sh, sw, margin_y=0, margin_x=1):
     columns = sw - margin_x * 2
 
     # decide the starting y, x
-    start_y = margin_y + 3
+    start_y = margin_y + 4
     start_x = margin_x
 
     # calculate the columns and rows of blocks for each color.
@@ -94,15 +93,15 @@ def paintpalette(stdscr, start_y, start_x, block_c, block_r,
     msg = "Curses Color Palette"
     # print the welcome message y-axis and x-axis
     #stdscr.addstr(sy - 6, center_yx[1] - len(msg) // 2, msg)
-    stdscr.addstr(start_y - 3, start_x, msg)
+    stdscr.addstr(start_y - 4, start_x, msg)
     # how to play.
-    msg = "Arrow Key up / down to change background color and ESC to exit!"
-    stdscr.addstr(start_y - 2, start_x, msg, curses.COLOR_GREEN)
+    msg = "Arrow Key up / down to change background color and ESC or q to exit!"
+    stdscr.addstr(start_y - 3, start_x, msg, curses.COLOR_GREEN)
 
     # paint the background color here.
-    stdscr.addstr(start_y - 1, start_x, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
+    stdscr.addstr(start_y - 2, start_x, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
     # any of the color pair will show the background color.
-    stdscr.addstr(start_y - 1, start_x + 22, '     ', curses.color_pair(1))
+    stdscr.addstr(start_y - 2, start_x + 22, '     ', curses.color_pair(1))
     #stdscr.addstr(start_y - 3, start_x + 22, '     ', curses.color_pair(1))
 
     for i in range(0, curses.COLORS):
