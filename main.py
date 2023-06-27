@@ -1,6 +1,7 @@
 import curses
 import random
 
+
 # initialize colors.
 def initcolors(bg_color=-1):
 
@@ -9,11 +10,12 @@ def initcolors(bg_color=-1):
     curses.use_default_colors()
 
     for i in range(0, curses.COLORS):
-    #for i in range(0, 20):
+        #for i in range(0, 20):
         # pair number, foreground color, background color
         #curses.init_pair(i + 1, i, -1)
         curses.init_pair(i + 1, i, bg_color)
         #curses.init_pair(i + 1, i, 8)
+
 
 def calcparams(sh, sw, margin_y=0, margin_x=1):
     """
@@ -35,7 +37,7 @@ def calcparams(sh, sw, margin_y=0, margin_x=1):
     # calculate how many rows and columns available for painting.
     # reserve 6 rows for message.
     # all message should be on top of the screen.
-    rows = sh - margin_y * 2 -3 
+    rows = sh - margin_y * 2 - 3
     columns = sw - margin_x * 2
 
     # decide the starting y, x
@@ -61,6 +63,7 @@ def calcparams(sh, sw, margin_y=0, margin_x=1):
         "color_perrow": color_perrow
     }
 
+
 """
 paint the color palette.
 paintpalette(stdscr, start_y, start_x, block_c, block_r, color_perrow, bg_color)
@@ -78,12 +81,14 @@ block_r
 color_perrow
   set how many colors to paint for each row.
 """
+
+
 #def paintpalette(stdscr, center_yx, bg_color):
-def paintpalette(stdscr, start_y, start_x, block_c, block_r,
-        color_perrow, bg_color):
+def paintpalette(stdscr, start_y, start_x, block_c, block_r, color_perrow,
+                 bg_color):
 
     # set the block character
-    # These not working well for terminal! 🏁 127937 
+    # These not working well for terminal! 🏁 127937
     # ✸ 10040 ❂ 10050 ✹ 10041
     # █ 9608 ◼ 9724
     # ⚑ 9873 ⚐ 9872
@@ -99,13 +104,14 @@ def paintpalette(stdscr, start_y, start_x, block_c, block_r,
     stdscr.addstr(start_y - 3, start_x, msg, curses.COLOR_GREEN)
 
     # paint the background color here.
-    stdscr.addstr(start_y - 2, start_x, 'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
+    stdscr.addstr(start_y - 2, start_x,
+                  'Backgroud Color: {:0>3}'.format(bg_color), curses.A_REVERSE)
     # any of the color pair will show the background color.
     stdscr.addstr(start_y - 2, start_x + 22, '     ', curses.color_pair(1))
     #stdscr.addstr(start_y - 3, start_x + 22, '     ', curses.color_pair(1))
 
     for i in range(0, curses.COLORS):
-    #for i in range(0, 20):
+        #for i in range(0, 20):
         #curses.init_pair(i + 1, i, 8)
         the_color = curses.color_pair(i + 1)
 
@@ -120,13 +126,14 @@ def paintpalette(stdscr, start_y, start_x, block_c, block_r,
         for xi in range(x * block_c, x * block_c + block_c):
             for yi in range(y * (block_r + 1), y * (block_r + 1) + block_r):
                 stdscr.addstr(start_y + yi, start_x + xi, block, the_color)
-        
+
         # paint the color pair id.
         stdscr.addstr(start_y + y * (block_r + 1) + block_r,
-                start_x + x * block_c, str(i + 1), the_color)
+                      start_x + x * block_c, str(i + 1), the_color)
         # paint a white space to match the block size: block_c
         w_size = block_c - len(str(i))
         stdscr.addstr(' ' * w_size, the_color)
+
 
 def screen(stdscr):
 
@@ -149,14 +156,15 @@ def screen(stdscr):
     bg = -1
     initcolors(bg)
     paintpalette(stdscr, params['start_y'], params['start_x'],
-            params['block_c'], params['block_r'], params['color_perrow'], bg)
+                 params['block_c'], params['block_r'], params['color_perrow'],
+                 bg)
 
     while True:
         user_key = stdscr.getch()
 
         # exit when user press ESC q or Q
         if user_key in [27, 113, 81]:
-            break;
+            break
 
         # decide the new head based on the direction
         if user_key in [curses.KEY_UP, 107]:
@@ -167,8 +175,8 @@ def screen(stdscr):
                 bg = -1
             initcolors(bg)
             paintpalette(stdscr, params['start_y'], params['start_x'],
-                    params['block_c'], params['block_r'],
-                    params['color_perrow'], bg)
+                         params['block_c'], params['block_r'],
+                         params['color_perrow'], bg)
 
         elif user_key in [curses.KEY_DOWN, 106]:
             # j (106) for down
@@ -178,7 +186,8 @@ def screen(stdscr):
                 bg = 255
             initcolors(bg)
             paintpalette(stdscr, params['start_y'], params['start_x'],
-                    params['block_c'], params['block_r'],
-                    params['color_perrow'], bg)
+                         params['block_c'], params['block_r'],
+                         params['color_perrow'], bg)
+
 
 curses.wrapper(screen)
